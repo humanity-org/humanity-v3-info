@@ -18,6 +18,7 @@ import INK_LOGO_URL from '../assets/images/ink-logo.png'
 import ANIME_TESTNET_LOGO_URL from '../assets/images/anime-logo.png'
 import ANIME_LOGO_URL from '../assets/images/anime-logo.png'
 import MODE_LOGO_URL from '../assets/images/mode-logo.png'
+import HUMANITY_LOGO_URL from '../assets/images/humanity-logo.png'
 
 export enum SupportedNetwork {
   ETHEREUM,
@@ -40,6 +41,7 @@ export enum SupportedNetwork {
   ANIME_TESTNET,
   MODE,
   ANIME,
+  HUMANITY,
 }
 
 export type NetworkInfo = {
@@ -272,6 +274,17 @@ export const AnimeNetworkInfo: NetworkInfo = {
   imageURL: ANIME_LOGO_URL,
 }
 
+export const HumanityNetworkInfo: NetworkInfo = {
+  chainId: ChainId.HUMANITY,
+  id: SupportedNetwork.HUMANITY,
+  route: 'humanity',
+  name: 'Humanity',
+  bgColor: '#BA5400',
+  primaryColor: '#BA5400',
+  secondaryColor: '#BA5400',
+  imageURL: HUMANITY_LOGO_URL,
+}
+
 export const SUPPORTED_NETWORK_VERSIONS: NetworkInfo[] = [
   // EthereumNetworkInfo,
   // PolygonNetworkInfo,
@@ -289,8 +302,9 @@ export const SUPPORTED_NETWORK_VERSIONS: NetworkInfo[] = [
   // RedstoneNetworkInfo,
   // RedstoneGarnetNetworkInfo,
   // InkNetworkInfo,
-  AbstractNetworkInfo,
+  // AbstractNetworkInfo,
   // AnimeTestnetNetworkInfo,
   // ModeNetworkInfo,
   // AnimeNetworkInfo,
+  HumanityNetworkInfo,
 ]

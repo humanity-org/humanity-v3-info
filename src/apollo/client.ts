@@ -865,3 +865,46 @@ export const animeBlockClient = new ApolloClient({
     },
   },
 })
+
+export const humanityClient = new ApolloClient({
+  uri: `${GRAPH_NODE_URL}/subgraphs/name/humanity/v3-subgraph`,
+  cache: new InMemoryCache({
+    typePolicies: {
+      Token: {
+        // Singleton types that have no identifying field can use an empty
+        // array for their keyFields.
+        keyFields: false,
+      },
+      Pool: {
+        // Singleton types that have no identifying field can use an empty
+        // array for their keyFields.
+        keyFields: false,
+      },
+    },
+  }),
+  queryDeduplication: true,
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'no-cache',
+    },
+    query: {
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all',
+    },
+  },
+})
+
+export const humanityBlockClient = new ApolloClient({
+  uri: `${GRAPH_NODE_URL}/subgraphs/name/humanity/blocks-subgraph`,
+  cache: new InMemoryCache(),
+  queryDeduplication: true,
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'cache-first',
+    },
+    query: {
+      fetchPolicy: 'cache-first',
+      errorPolicy: 'all',
+    },
+  },
+})
