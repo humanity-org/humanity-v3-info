@@ -10,7 +10,8 @@ export const INK_LIST = getTokenListApiURL('ink')
 export const ABSTRACT_LIST = getTokenListApiURL('abstract')
 export const ANIME_TESTNET_LIST = getTokenListApiURL('anime-testnet')
 export const MODE_LIST = getTokenListApiURL('mode')
-export const HUMANITY_LIST = 'https://raw.githubusercontent.com/protofire/humanity-token-list/refs/heads/main/tokenList.json'
+export const HUMANITY_LIST =
+  'https://raw.githubusercontent.com/protofire/humanity-token-list/refs/heads/main/tokenList.json'
 
 // default lists to be 'active' aka searched across
 export const DEFAULT_ACTIVE_LIST_URLS: string[] = [
