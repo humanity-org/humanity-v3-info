@@ -867,7 +867,7 @@ export const animeBlockClient = new ApolloClient({
 })
 
 export const humanityClient = new ApolloClient({
-  uri: `${GRAPH_NODE_URL}/subgraphs/name/humanity-mainnet/v3-subgraph`,
+  uri: `${GRAPH_NODE_URL}/subgraphs/name/humanity-mainnet/uniswap-v3`,
   cache: new InMemoryCache({
     typePolicies: {
       Token: {
@@ -895,7 +895,7 @@ export const humanityClient = new ApolloClient({
 })
 
 export const humanityBlockClient = new ApolloClient({
-  uri: `${GRAPH_NODE_URL}/subgraphs/name/humanity-mainnet/blocks-subgraph`,
+  uri: `${GRAPH_NODE_URL}/subgraphs/name/humanity-mainnet/blocks`,
   cache: new InMemoryCache(),
   queryDeduplication: true,
   defaultOptions: {
