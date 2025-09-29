@@ -61,10 +61,20 @@ export default function Home() {
   // get all the pool datas that exist
   const allPoolData = useAllPoolData()
   const poolDatas = useMemo(() => {
-    return Object.values(allPoolData)
+    const pools = Object.values(allPoolData)
       .map((p) => p.data)
       .filter(notEmpty)
-  }, [allPoolData])
+
+    // Debug logging for troubleshooting
+    console.log('Pool data debug:', {
+      allPoolsCount: Object.keys(allPoolData).length,
+      formattedPoolsCount: pools.length,
+      activeNetwork: activeNetwork.name,
+      samplePool: pools[0],
+    })
+
+    return pools
+  }, [allPoolData, activeNetwork.name])
 
   // if hover value undefined, reset to current day value
   useEffect(() => {
@@ -110,10 +120,20 @@ export default function Home() {
   const allTokens = useAllTokenData()
 
   const formattedTokens = useMemo(() => {
-    return Object.values(allTokens)
+    const tokens = Object.values(allTokens)
       .map((t) => t.data)
       .filter(notEmpty)
-  }, [allTokens])
+
+    // Debug logging for troubleshooting
+    console.log('Token data debug:', {
+      allTokensCount: Object.keys(allTokens).length,
+      formattedTokensCount: tokens.length,
+      activeNetwork: activeNetwork.name,
+      sampleToken: tokens[0],
+    })
+
+    return tokens
+  }, [allTokens, activeNetwork.name])
 
   const [volumeWindow, setVolumeWindow] = useState(VolumeWindow.weekly)
 
