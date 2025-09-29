@@ -1,6 +1,6 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client'
 
-export const GRAPH_NODE_URL = process.env.REACT_APP_GRAPH_NODE_URL ?? `https://graph-node.reservoir.tools`
+export const GRAPH_NODE_URL = process.env.REACT_APP_GRAPH_NODE_URL ?? `https://graph.staging.swap.humanity.org`
 
 export const healthClient = new ApolloClient({
   uri: 'https://api.thegraph.com/index-node/graphql',
@@ -853,6 +853,49 @@ export const animeClient = new ApolloClient({
 
 export const animeBlockClient = new ApolloClient({
   uri: `${GRAPH_NODE_URL}/subgraphs/name/anime/blocks-subgraph`,
+  cache: new InMemoryCache(),
+  queryDeduplication: true,
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'cache-first',
+    },
+    query: {
+      fetchPolicy: 'cache-first',
+      errorPolicy: 'all',
+    },
+  },
+})
+
+export const humanityClient = new ApolloClient({
+  uri: `${GRAPH_NODE_URL}/subgraphs/name/humanity-mainnet/uniswap-v3`,
+  cache: new InMemoryCache({
+    typePolicies: {
+      Token: {
+        // Singleton types that have no identifying field can use an empty
+        // array for their keyFields.
+        keyFields: false,
+      },
+      Pool: {
+        // Singleton types that have no identifying field can use an empty
+        // array for their keyFields.
+        keyFields: false,
+      },
+    },
+  }),
+  queryDeduplication: true,
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'no-cache',
+    },
+    query: {
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all',
+    },
+  },
+})
+
+export const humanityBlockClient = new ApolloClient({
+  uri: `${GRAPH_NODE_URL}/subgraphs/name/humanity-mainnet/blocks`,
   cache: new InMemoryCache(),
   queryDeduplication: true,
   defaultOptions: {
