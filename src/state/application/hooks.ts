@@ -147,7 +147,6 @@ export function useSubgraphStatus(): [
 export function useActiveNetworkVersion(): [NetworkInfo, (activeNetworkVersion: NetworkInfo) => void] {
   const dispatch = useDispatch()
   const activeNetwork = useSelector((state: AppState) => {
-    console.log('state: ', state)
     return state.application.activeNetworkVersion
   })
 
@@ -207,7 +206,7 @@ export function useDataClient(): ApolloClient<NormalizedCacheObject> {
     case SupportedNetwork.HUMANITY:
       return humanityClient
     default:
-      return client
+      return humanityClient
   }
 }
 
@@ -258,7 +257,7 @@ export function useBlockClient(): ApolloClient<NormalizedCacheObject> {
     case SupportedNetwork.HUMANITY:
       return humanityBlockClient
     default:
-      return blockClient
+      return humanityBlockClient
   }
 }
 

@@ -32,7 +32,14 @@ export function useTopPoolAddresses(): {
   const { loading, error, data } = useQuery<TopPoolsResponse>(TOP_POOLS, {
     client: dataClient,
     fetchPolicy: 'cache-first',
+    errorPolicy: 'all',
+    notifyOnNetworkStatusChange: true,
   })
+
+  // Debug logging for troubleshooting
+  if (error) {
+    console.error('Top pools query error:', error)
+  }
 
   const formattedData = useMemo(() => {
     if (data) {

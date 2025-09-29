@@ -27,7 +27,11 @@ export function useTopTokenAddresses(): {
 } {
   const { dataClient } = useClients()
 
-  const { loading, error, data } = useQuery<TopTokensResponse>(TOP_TOKENS, { client: dataClient })
+  const { loading, error, data } = useQuery<TopTokensResponse>(TOP_TOKENS, {
+    client: dataClient,
+    errorPolicy: 'all',
+    notifyOnNetworkStatusChange: true,
+  })
 
   const formattedData = useMemo(() => {
     if (data) {
@@ -36,6 +40,11 @@ export function useTopTokenAddresses(): {
       return undefined
     }
   }, [data])
+
+  // Debug logging for troubleshooting
+  if (error) {
+    console.error('Top tokens query error:', error)
+  }
 
   return {
     loading: loading,

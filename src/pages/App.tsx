@@ -15,7 +15,7 @@ import PoolPage from './Pool/PoolPage'
 import { ExternalLink, TYPE } from 'theme'
 import { useActiveNetworkVersion, useSubgraphStatus } from 'state/application/hooks'
 import { DarkGreyCard } from 'components/Card'
-import { SUPPORTED_NETWORK_VERSIONS, OptimismNetworkInfo, HumanityNetworkInfo } from 'constants/networks'
+import { SUPPORTED_NETWORK_VERSIONS, OptimismNetworkInfo } from 'constants/networks'
 import { Link } from 'rebass'
 import { forkConfig } from 'forkConfig'
 
@@ -112,14 +112,20 @@ export default function App() {
   const location = useLocation()
   const [activeNetwork, setActiveNetwork] = useActiveNetworkVersion()
   useEffect(() => {
-    if (location.pathname === '/') {
-      setActiveNetwork(HumanityNetworkInfo)
+    // Default to first supported network (Humanity) for root path
+    if (location.pathname === '/' || location.pathname === '') {
+      setActiveNetwork(SUPPORTED_NETWORK_VERSIONS[0])
     } else {
-      SUPPORTED_NETWORK_VERSIONS.map((n) => {
-        if (location.pathname.includes(n.route.toLocaleLowerCase())) {
-          setActiveNetwork(n)
-        }
-      })
+      // Find matching network from supported versions
+      const matchedNetwork = SUPPORTED_NETWORK_VERSIONS.find((n) =>
+        location.pathname.toLowerCase().includes('/' + n.route.toLowerCase()),
+      )
+      if (matchedNetwork) {
+        setActiveNetwork(matchedNetwork)
+      } else {
+        // Fallback to first supported network if no match found
+        setActiveNetwork(SUPPORTED_NETWORK_VERSIONS[0])
+      }
     }
   }, [location.pathname, setActiveNetwork])
 
