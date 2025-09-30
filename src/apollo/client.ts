@@ -1,6 +1,6 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client'
 
-export const GRAPH_NODE_URL = process.env.REACT_APP_GRAPH_NODE_URL ?? `https://graph.staging.swap.humanity.org`
+export const GRAPH_NODE_URL = process.env.REACT_APP_GRAPH_NODE_URL ?? `https://graph.swap.humanity.org`
 
 export const healthClient = new ApolloClient({
   uri: 'https://api.thegraph.com/index-node/graphql',
