@@ -106,9 +106,13 @@ const StyledNavLink = styled(NavLink)<{ $isActive: boolean }>`
   background-color: ${({ theme, $isActive }) => ($isActive ? theme.bg2 : 'unset')};
   color: ${({ theme, $isActive }) => ($isActive ? theme.text1 : theme.text3)};
 
-  :hover,
-  :focus {
+  &:hover,
+  &:focus {
     color: ${({ theme }) => darken(0.1, theme.text1)};
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border-radius: 12px !important;
   }
 `
 

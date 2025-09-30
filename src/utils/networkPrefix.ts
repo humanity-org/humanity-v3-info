@@ -1,8 +1,8 @@
-import { AbstractTestnetNetworkInfo, NetworkInfo } from 'constants/networks'
+import { HumanityNetworkInfo, NetworkInfo } from 'constants/networks'
 
 export function networkPrefix(activeNewtork: NetworkInfo) {
-  const isAbstract = activeNewtork === AbstractTestnetNetworkInfo
-  if (isAbstract) {
+  const isHumanity = activeNewtork === HumanityNetworkInfo
+  if (isHumanity) {
     return '/'
   }
   const prefix = '/' + activeNewtork.route.toLocaleLowerCase() + '/'
