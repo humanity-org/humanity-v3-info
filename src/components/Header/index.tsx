@@ -3,7 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 import { darken } from 'polished'
 import styled from 'styled-components'
 import LogoDark from '../../assets/svg/logo_green.svg'
-import Menu from '../Menu'
+// import Menu from '../Menu'
 import Row, { RowFixed, RowBetween } from '../Row'
 import SearchSmall from 'components/Search'
 import NetworkDropdown from 'components/Menu/NetworkDropdown'
@@ -214,7 +214,7 @@ export default function Header() {
         <ThemeButton onClick={toggleDarkMode} aria-label="Toggle theme">
           {darkMode ? <Moon size={18} /> : <Sun size={18} />}
         </ThemeButton>
-        <Menu />
+        {/* <Menu /> */}
       </HeaderControls>
       <SmallContentGrouping>
         <AutoColumn $gap="sm">
@@ -223,7 +223,7 @@ export default function Header() {
             <ThemeButton onClick={toggleDarkMode} aria-label="Toggle theme">
               {darkMode ? <Moon size={18} /> : <Sun size={18} />}
             </ThemeButton>
-            <Menu />
+            {/* <Menu /> */}
           </RowBetween>
           <SearchSmall />
         </AutoColumn>
