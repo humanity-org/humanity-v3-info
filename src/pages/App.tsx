@@ -2,7 +2,6 @@ import React, { Suspense, useState, useEffect } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
-import URLWarning from '../components/Header/URLWarning'
 import Popups from '../components/Popups'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
 import Home from './Home'
@@ -144,7 +143,6 @@ export default function App() {
         <LocalLoader fill={true} />
       ) : (
         <AppWrapper>
-          <URLWarning />
           <HeaderWrapper>
             {showNotSyncedWarning && (
               <BannerWrapper>
