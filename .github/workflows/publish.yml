@@ -1,0 +1,38 @@
+# Build the v3 analytics site and publish it to S3 + CloudFront.
+# Reusable publish workflow lives in humanity-org/devops (docs/app-cicd.md,
+# docs/frontend-build-matrix.md).
+name: build-publish
+
+on:
+  push:
+    branches: [staging, production]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - run: yarn install
+      - name: Build
+        run: yarn build
+        env:
+          CI: 'false'
+          REACT_APP_GRAPH_NODE_URL: ${{ github.ref_name == 'production' && 'https://graph.swap.humanity.org' || 'https://graph.staging.swap.humanity.org' }}
+          REACT_APP_INTERFACE_URL: ${{ github.ref_name == 'production' && 'https://swap.humanity.org' || 'https://staging.swap.humanity.org' }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: build
+
+  publish:
+    needs: build
+    uses: humanity-org/devops/.github/workflows/reusable-static-publish.yml@main
+    with:
+      artifact-name: site
+      bucket-name: humanity-swap-${{ github.ref_name }}-info
+      distribution-id: ${{ github.ref_name == 'production' && vars.SWAP_INFO_DIST_ID_PRODUCTION || vars.SWAP_INFO_DIST_ID_STAGING }}
+    permissions:
+      id-token: write
