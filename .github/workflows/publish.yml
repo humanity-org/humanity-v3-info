@@ -29,7 +29,7 @@ jobs:
 
   publish:
     needs: build
-    uses: humanity-org/devops/.github/workflows/reusable-static-publish.yml@main
+    uses: humanity-org/ci-workflows/.github/workflows/reusable-static-publish.yml@main
     with:
       artifact-name: site
       bucket-name: humanity-swap-${{ github.ref_name }}-info
