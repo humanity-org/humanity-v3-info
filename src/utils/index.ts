@@ -41,7 +41,7 @@ const BLOCK_EXPLORER_PREFIXES: { [chainId: number]: string } = {
   [ChainId.SHAPE]: 'https://shapescan.xyz',
   [ChainId.REDSTONE]: 'https://explorer.redstone.xyz',
   [ChainId.REDSTONE_GARNET]: 'https://explorer.garnetchain.com',
-  [ChainId.HUMANITY]: 'https://humanity-mainnet.explorer.alchemy.com',
+  [ChainId.HUMANITY]: 'https://humanity-main.explorer.alchemy.com',
 }
 
 export enum ExplorerDataType {

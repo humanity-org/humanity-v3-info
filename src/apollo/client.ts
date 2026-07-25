@@ -8,7 +8,7 @@ export const healthClient = new ApolloClient({
 })
 
 export const blockClient = new ApolloClient({
-  uri: `${GRAPH_NODE_URL}/subgraphs/name/humanity-mainnet/blocks`,
+  uri: `${GRAPH_NODE_URL}/subgraphs/name/humanity-main/blocks`,
   cache: new InMemoryCache(),
   queryDeduplication: true,
   defaultOptions: {
@@ -23,7 +23,7 @@ export const blockClient = new ApolloClient({
 })
 
 export const client = new ApolloClient({
-  uri: `${GRAPH_NODE_URL}/subgraphs/name/humanity-mainnet/uniswap-v3`,
+  uri: `${GRAPH_NODE_URL}/subgraphs/name/humanity-main/uniswap-v3`,
   cache: new InMemoryCache({
     typePolicies: {
       Token: {
@@ -867,7 +867,7 @@ export const animeBlockClient = new ApolloClient({
 })
 
 export const humanityClient = new ApolloClient({
-  uri: `${GRAPH_NODE_URL}/subgraphs/name/humanity-mainnet/uniswap-v3`,
+  uri: `${GRAPH_NODE_URL}/subgraphs/name/humanity-main/uniswap-v3`,
   cache: new InMemoryCache({
     typePolicies: {
       Token: {
@@ -895,7 +895,7 @@ export const humanityClient = new ApolloClient({
 })
 
 export const humanityBlockClient = new ApolloClient({
-  uri: `${GRAPH_NODE_URL}/subgraphs/name/humanity-mainnet/blocks`,
+  uri: `${GRAPH_NODE_URL}/subgraphs/name/humanity-main/blocks`,
   cache: new InMemoryCache(),
   queryDeduplication: true,
   defaultOptions: {
