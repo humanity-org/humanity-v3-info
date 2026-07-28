@@ -135,8 +135,14 @@ export function usePoolDatas(poolAddresses: string[]): {
     data: dataWeek,
   } = useQuery<PoolDataResponse>(POOLS_BULK(blockWeek?.number, poolAddresses), { client: dataClient })
 
-  const anyError = Boolean(error || error24 || error48 || blockError || errorWeek)
-  const anyLoading = Boolean(loading || loading24 || loading48 || loadingWeek)
+  // Only the current-block query is essential. Historical (24h/48h/1w) and
+  // block-timestamp queries are flaky on a young chain (out-of-range blocks,
+  // transient errors) — don't blank the whole table when they fail; the
+  // formatting below already falls back to current values, so deltas simply
+  // show 0 until enough history exists. Gating on them made the list flicker
+  // empty intermittently.
+  const anyError = Boolean(error)
+  const anyLoading = Boolean(loading)
 
   // return early if not all data yet
   if (anyError || anyLoading) {
