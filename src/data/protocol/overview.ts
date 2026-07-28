@@ -49,33 +49,29 @@ export function useFetchProtocolData(
 
   // get blocks from historic timestamps
   const [t24, t48] = useDeltaTimestamps()
-  const { blocks, error: blockError } = useBlocksFromTimestamps([t24, t48], activeBlockClient)
+  const { blocks } = useBlocksFromTimestamps([t24, t48], activeBlockClient)
   const [block24, block48] = blocks ?? []
 
   // fetch all data
   const { loading, error, data } = useQuery<GlobalResponse>(GLOBAL_DATA(), { client: activeDataClient })
 
-  const {
-    loading: loading24,
-    error: error24,
-    data: data24,
-  } = useQuery<GlobalResponse>(GLOBAL_DATA(block24?.number ?? 0), { client: activeDataClient })
+  const { data: data24 } = useQuery<GlobalResponse>(GLOBAL_DATA(block24?.number ?? 0), { client: activeDataClient })
 
-  const {
-    loading: loading48,
-    error: error48,
-    data: data48,
-  } = useQuery<GlobalResponse>(GLOBAL_DATA(block48?.number ?? 0), { client: activeDataClient })
+  const { data: data48 } = useQuery<GlobalResponse>(GLOBAL_DATA(block48?.number ?? 0), { client: activeDataClient })
 
-  const anyError = Boolean(error || error24 || error48 || blockError)
-  const anyLoading = Boolean(loading || loading24 || loading48)
+  // Only the current-block query is essential. Historical (24h/48h) and
+  // block-timestamp queries are flaky on a young chain, so don't blank the
+  // header stats when they fail; the memo below falls back to current-only
+  // values (changes show 0 until history exists).
+  const anyError = Boolean(error)
+  const anyLoading = Boolean(loading)
 
   const parsed = data?.factories?.[0]
   const parsed24 = data24?.factories?.[0]
   const parsed48 = data48?.factories?.[0]
 
   const formattedData: ProtocolData | undefined = useMemo(() => {
-    if (anyError || anyLoading || !parsed || !blocks || tvlOffset === undefined) {
+    if (anyError || anyLoading || !parsed) {
       return undefined
     }
 
@@ -120,7 +116,7 @@ export function useFetchProtocolData(
     return {
       volumeUSD,
       volumeUSDChange: typeof volumeUSDChange === 'number' ? volumeUSDChange : 0,
-      tvlUSD: parseFloat(parsed?.totalValueLockedUSD) - tvlOffset,
+      tvlUSD: parseFloat(parsed?.totalValueLockedUSD) - (tvlOffset ?? 0),
       tvlUSDChange,
       feesUSD,
       feeChange,
