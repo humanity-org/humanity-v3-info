@@ -3,7 +3,8 @@ import { BigNumber } from '@ethersproject/bignumber'
 import { AddressZero } from '@ethersproject/constants'
 import { Contract } from '@ethersproject/contracts'
 import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
-import { ChainId, Currency, CurrencyAmount, Fraction, Percent, Token } from '@uniswap/sdk-core'
+import { Currency, CurrencyAmount, Fraction, Percent, Token } from '@uniswap/sdk-core'
+import { ChainId } from '../constants/chainIdExt'
 
 import JSBI from 'jsbi'
 import { TokenAddressMap } from '../state/lists/hooks'
@@ -40,7 +41,7 @@ const BLOCK_EXPLORER_PREFIXES: { [chainId: number]: string } = {
   [ChainId.SHAPE]: 'https://shapescan.xyz',
   [ChainId.REDSTONE]: 'https://explorer.redstone.xyz',
   [ChainId.REDSTONE_GARNET]: 'https://explorer.garnetchain.com',
-  [ChainId.HUMANITY]: 'https://humanity-mainnet.explorer.alchemy.com',
+  [ChainId.HUMANITY]: 'https://humanity-main.explorer.alchemy.com',
 }
 
 export enum ExplorerDataType {

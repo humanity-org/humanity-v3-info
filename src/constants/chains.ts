@@ -1,4 +1,5 @@
-import { ChainId, SUPPORTED_CHAINS, SupportedChainsType } from '@uniswap/sdk-core'
+import { ChainId as SdkChainId, SUPPORTED_CHAINS, SupportedChainsType } from '@uniswap/sdk-core'
+import { ChainId } from './chainIdExt'
 
 export const CHAIN_IDS_TO_NAMES = {
   [ChainId.MAINNET]: 'mainnet',
@@ -21,7 +22,7 @@ export const CHAIN_IDS_TO_NAMES = {
 const NOT_YET_UX_SUPPORTED_CHAIN_IDS: number[] = [ChainId.BASE_GOERLI]
 
 // TODO: include BASE_GOERLI when routing is implemented
-export type SupportedInterfaceChain = Exclude<SupportedChainsType, ChainId.BASE_GOERLI>
+export type SupportedInterfaceChain = Exclude<SupportedChainsType, SdkChainId.BASE_GOERLI>
 
 export function isSupportedChain(
   chainId: number | null | undefined | ChainId,
