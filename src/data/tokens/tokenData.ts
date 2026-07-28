@@ -108,7 +108,12 @@ export function useFetchedTokenDatas(tokenAddresses: string[]): {
   })
 
   const anyError = Boolean(error || error24 || error48 || blockError || errorWeek)
-  const anyLoading = Boolean(loading || loading24 || loading48 || loadingWeek || !blocks)
+  // NB: do not gate on `!blocks` (unlike the original upstream) — on a young
+  // chain the block-timestamp lookup can stay unresolved, which would leave the
+  // token list stuck on skeletons forever. poolData doesn't gate on it and
+  // renders fine; the per-block queries already fall back to current data when
+  // a block is missing.
+  const anyLoading = Boolean(loading || loading24 || loading48 || loadingWeek)
 
   if (!ethPrices) {
     return {
