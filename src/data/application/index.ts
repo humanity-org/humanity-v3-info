@@ -1,87 +1,18 @@
-import { useActiveNetworkVersion } from 'state/application/hooks'
-import { healthClient } from './../../apollo/client'
-import { useQuery } from '@apollo/client'
-import gql from 'graphql-tag'
-import { ArbitrumNetworkInfo, EthereumNetworkInfo } from 'constants/networks'
-
-export const SUBGRAPH_HEALTH = gql`
-  query health($name: Bytes) {
-    indexingStatusForCurrentVersion(subgraphName: $name, subgraphError: allow) {
-      synced
-      health
-      chains {
-        chainHeadBlock {
-          number
-        }
-        latestBlock {
-          number
-        }
-      }
-    }
-  }
-`
-
-interface HealthResponse {
-  indexingStatusForCurrentVersion: {
-    chains: {
-      chainHeadBlock: {
-        number: string
-      }
-      latestBlock: {
-        number: string
-      }
-    }[]
-    synced: boolean
-  }
-}
-
 /**
- * Fetch top addresses by volume
+ * Subgraph health.
+ *
+ * The upstream hosted-service index-node this probe used (api.thegraph.com/
+ * index-node) was shut down by The Graph — it now 404s / is CORS-blocked — and
+ * our self-hosted graph-node's index-node is not publicly exposed. Probing the
+ * dead endpoint made the status flip to `available: false`, which replaces the
+ * whole UI with a "hosted network is experiencing issues" card. Our subgraph's
+ * query endpoint is what actually serves data and is healthy, so report the
+ * subgraph as available without a (dead) health probe.
  */
 export function useFetchedSubgraphStatus(): {
   available: boolean | null
   syncedBlock: number | undefined
   headBlock: number | undefined
 } {
-  const [activeNetwork] = useActiveNetworkVersion()
-
-  const { loading, error, data } = useQuery<HealthResponse>(SUBGRAPH_HEALTH, {
-    client: healthClient,
-    fetchPolicy: 'network-only',
-    variables: {
-      name:
-        activeNetwork === EthereumNetworkInfo
-          ? 'uniswap/uniswap-v3'
-          : activeNetwork === ArbitrumNetworkInfo
-          ? 'ianlapham/uniswap-arbitrum-one'
-          : 'ianlapham/uniswap-optimism',
-    },
-  })
-
-  const parsed = data?.indexingStatusForCurrentVersion
-
-  if (loading) {
-    return {
-      available: null,
-      syncedBlock: undefined,
-      headBlock: undefined,
-    }
-  }
-
-  if ((!loading && !parsed) || error) {
-    return {
-      available: false,
-      syncedBlock: undefined,
-      headBlock: undefined,
-    }
-  }
-
-  const syncedBlock = parsed?.chains[0].latestBlock.number
-  const headBlock = parsed?.chains[0].chainHeadBlock.number
-
-  return {
-    available: true,
-    syncedBlock: syncedBlock ? parseFloat(syncedBlock) : undefined,
-    headBlock: headBlock ? parseFloat(headBlock) : undefined,
-  }
+  return { available: true, syncedBlock: undefined, headBlock: undefined }
 }
