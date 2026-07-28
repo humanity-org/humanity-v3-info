@@ -112,28 +112,22 @@ export function usePoolDatas(poolAddresses: string[]): {
 
   // get blocks from historic timestamps
   const [t24, t48, tWeek] = useDeltaTimestamps()
-  const { blocks, error: blockError } = useBlocksFromTimestamps([t24, t48, tWeek])
+  const { blocks } = useBlocksFromTimestamps([t24, t48, tWeek])
   const [block24, block48, blockWeek] = blocks ?? []
 
   const { loading, error, data } = useQuery<PoolDataResponse>(POOLS_BULK(undefined, poolAddresses), {
     client: dataClient,
   })
 
-  const {
-    loading: loading24,
-    error: error24,
-    data: data24,
-  } = useQuery<PoolDataResponse>(POOLS_BULK(block24?.number, poolAddresses), { client: dataClient })
-  const {
-    loading: loading48,
-    error: error48,
-    data: data48,
-  } = useQuery<PoolDataResponse>(POOLS_BULK(block48?.number, poolAddresses), { client: dataClient })
-  const {
-    loading: loadingWeek,
-    error: errorWeek,
-    data: dataWeek,
-  } = useQuery<PoolDataResponse>(POOLS_BULK(blockWeek?.number, poolAddresses), { client: dataClient })
+  const { data: data24 } = useQuery<PoolDataResponse>(POOLS_BULK(block24?.number, poolAddresses), {
+    client: dataClient,
+  })
+  const { data: data48 } = useQuery<PoolDataResponse>(POOLS_BULK(block48?.number, poolAddresses), {
+    client: dataClient,
+  })
+  const { data: dataWeek } = useQuery<PoolDataResponse>(POOLS_BULK(blockWeek?.number, poolAddresses), {
+    client: dataClient,
+  })
 
   // Only the current-block query is essential. Historical (24h/48h/1w) and
   // block-timestamp queries are flaky on a young chain (out-of-range blocks,
