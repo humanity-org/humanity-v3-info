@@ -81,7 +81,7 @@ const MenuItem = styled(ExternalLink)`
   }
 `
 
-const CODE_LINK = 'https://github.com/protofire'
+const CODE_LINK = 'https://github.com/humanity-org'
 
 export default function Menu() {
   const node = useRef<HTMLDivElement>(null)
