@@ -107,13 +107,13 @@ export function useFetchedTokenDatas(tokenAddresses: string[]): {
     client: dataClient,
   })
 
-  const anyError = Boolean(error || error24 || error48 || blockError || errorWeek)
-  // NB: do not gate on `!blocks` (unlike the original upstream) — on a young
-  // chain the block-timestamp lookup can stay unresolved, which would leave the
-  // token list stuck on skeletons forever. poolData doesn't gate on it and
-  // renders fine; the per-block queries already fall back to current data when
-  // a block is missing.
-  const anyLoading = Boolean(loading || loading24 || loading48 || loadingWeek)
+  // Only the current-block query is essential. Historical (24h/48h/1w) and
+  // block-timestamp queries are flaky on a young chain — don't blank the whole
+  // list when they fail or lag; the formatting falls back to current values, so
+  // deltas show 0 until enough history exists. Gating on them (incl. `!blocks`)
+  // left the list stuck on skeletons / flickering empty intermittently.
+  const anyError = Boolean(error)
+  const anyLoading = Boolean(loading)
 
   if (!ethPrices) {
     return {
