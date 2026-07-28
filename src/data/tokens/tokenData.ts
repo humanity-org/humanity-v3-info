@@ -75,7 +75,7 @@ export function useFetchedTokenDatas(tokenAddresses: string[]): {
   // get blocks from historic timestamps
   const [t24, t48, tWeek] = useDeltaTimestamps()
 
-  const { blocks, error: blockError } = useBlocksFromTimestamps([t24, t48, tWeek])
+  const { blocks } = useBlocksFromTimestamps([t24, t48, tWeek])
   const [block24, block48, blockWeek] = blocks ?? []
   const ethPrices = useEthPrices()
 
@@ -83,27 +83,15 @@ export function useFetchedTokenDatas(tokenAddresses: string[]): {
     client: dataClient,
   })
 
-  const {
-    loading: loading24,
-    error: error24,
-    data: data24,
-  } = useQuery<TokenDataResponse>(TOKENS_BULK(parseInt(block24?.number), tokenAddresses), {
+  const { data: data24 } = useQuery<TokenDataResponse>(TOKENS_BULK(parseInt(block24?.number), tokenAddresses), {
     client: dataClient,
   })
 
-  const {
-    loading: loading48,
-    error: error48,
-    data: data48,
-  } = useQuery<TokenDataResponse>(TOKENS_BULK(parseInt(block48?.number), tokenAddresses), {
+  const { data: data48 } = useQuery<TokenDataResponse>(TOKENS_BULK(parseInt(block48?.number), tokenAddresses), {
     client: dataClient,
   })
 
-  const {
-    loading: loadingWeek,
-    error: errorWeek,
-    data: dataWeek,
-  } = useQuery<TokenDataResponse>(TOKENS_BULK(parseInt(blockWeek?.number), tokenAddresses), {
+  const { data: dataWeek } = useQuery<TokenDataResponse>(TOKENS_BULK(parseInt(blockWeek?.number), tokenAddresses), {
     client: dataClient,
   })
 
